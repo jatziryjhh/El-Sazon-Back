@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
 
 import java.time.LocalDateTime;
 
@@ -21,4 +22,8 @@ public class Inventario {
     private Integer cantidad_inventario;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fecha_actualizacion;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "prodcuto_id")
+    private Producto producto;
 }

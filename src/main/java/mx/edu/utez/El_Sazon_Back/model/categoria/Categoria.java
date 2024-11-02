@@ -1,9 +1,13 @@
 package mx.edu.utez.El_Sazon_Back.model.categoria;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,5 +21,9 @@ public class Categoria {
     private Long id_categoria;
     @Column(length = 50, nullable = false)
     private String nombre_categoria;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Producto> productos;
 
 }

@@ -18,6 +18,7 @@ public class PedidoProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //es la cantidad de los productos compradossss
     @Column(length = 50, nullable = false)
     private Integer cantidad_productos_pedidos;
 

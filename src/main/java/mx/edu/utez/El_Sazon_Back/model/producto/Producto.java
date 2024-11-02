@@ -1,9 +1,16 @@
 package mx.edu.utez.El_Sazon_Back.model.producto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.edu.utez.El_Sazon_Back.model.categoria.Categoria;
+import mx.edu.utez.El_Sazon_Back.model.inventario.Inventario;
+import mx.edu.utez.El_Sazon_Back.model.pedido.Pedido;
+import mx.edu.utez.El_Sazon_Back.model.pedidoProducto.PedidoProducto;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +30,18 @@ public class Producto {
     private Double precio;
     @Column(length = 50, nullable = false)
     private Integer cantidad_disponible;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
+    private Inventario inventario;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<PedidoProducto> pedidoProductos;
+
+
+
 }
