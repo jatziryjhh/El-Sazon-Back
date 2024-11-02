@@ -43,6 +43,23 @@ public class Usuario {
     @JoinColumn(name = "rol_id")
     private Rol rol;
 
+    public Usuario(Long id_usuario, String nombre, String apellidom, String apellidop, String correo, String contrasena) {
+        this.id_usuario = id_usuario;
+        this.nombre = nombre;
+        this.apellidom = apellidom;
+        this.apellidop = apellidop;
+        this.correo = correo;
+        this.contrasena = contrasena;
+    }
 
+    public Usuario(Long id_usuario, String nombre, String apellidom, String apellidop, String correo, String contrasena, Rol rol) {
+        this.id_usuario = id_usuario;
+        this.nombre = nombre;
+        this.apellidom = apellidom;
+        this.apellidop = apellidop;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.rol = rol;
+    }
 }
 

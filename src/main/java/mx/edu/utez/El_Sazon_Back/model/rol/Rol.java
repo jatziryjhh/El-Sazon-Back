@@ -24,4 +24,8 @@ public class Rol {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "rol" )
     private List<Usuario> usuarios;
+
+    public Rol(String nombre_rol) {
+        this.nombre_rol = nombre_rol;
+    }
 }

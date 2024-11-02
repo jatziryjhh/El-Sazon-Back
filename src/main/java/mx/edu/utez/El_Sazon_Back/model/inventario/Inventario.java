@@ -26,4 +26,11 @@ public class Inventario {
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "prodcuto_id")
     private Producto producto;
+
+    public Inventario(Long id_inventario, Integer cantidad_inventario, LocalDateTime fecha_actualizacion, Producto producto) {
+        this.id_inventario = id_inventario;
+        this.cantidad_inventario = cantidad_inventario;
+        this.fecha_actualizacion = fecha_actualizacion;
+        this.producto = producto;
+    }
 }

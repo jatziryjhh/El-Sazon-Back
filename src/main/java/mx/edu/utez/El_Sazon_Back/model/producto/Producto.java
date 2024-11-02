@@ -42,6 +42,12 @@ public class Producto {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "producto")
     private List<PedidoProducto> pedidoProductos;
 
-
-
+    public Producto(Long id_producto, String nombre_producto, String descripcion, Double precio, Integer cantidad_disponible, Categoria categoria) {
+        this.id_producto = id_producto;
+        this.nombre_producto = nombre_producto;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.cantidad_disponible = cantidad_disponible;
+        this.categoria = categoria;
+    }
 }

@@ -32,4 +32,11 @@ public class Venta {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    public Venta(Long id_venta, LocalDateTime fecha_venta, Double total_venta, Pedido pedido, Usuario usuario) {
+        this.id_venta = id_venta;
+        this.fecha_venta = fecha_venta;
+        this.total_venta = total_venta;
+        this.pedido = pedido;
+        this.usuario = usuario;
+    }
 }

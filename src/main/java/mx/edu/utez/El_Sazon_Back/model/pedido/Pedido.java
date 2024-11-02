@@ -40,5 +40,10 @@ public class Pedido {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-
+    public Pedido(Long id_pedido, LocalDateTime fecha_pedido, Double total_pedido, Usuario usuario) {
+        this.id_pedido = id_pedido;
+        this.fecha_pedido = fecha_pedido;
+        this.total_pedido = total_pedido;
+        this.usuario = usuario;
+    }
 }

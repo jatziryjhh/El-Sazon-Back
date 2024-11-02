@@ -25,4 +25,6 @@ public class Categoria {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "categoria")
     private List<Producto> productos;
 
+    public Categoria(Long idCategoria, String nombreCategoria, List<Producto> productos) {
+    }
 }
