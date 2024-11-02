@@ -33,15 +33,12 @@ public class Pedido {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Venta venta;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "pedido")
     private List<PedidoProducto> pedidoProductos;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-
-
 
 
 }

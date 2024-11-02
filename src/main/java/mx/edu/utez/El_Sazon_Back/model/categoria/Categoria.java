@@ -22,8 +22,7 @@ public class Categoria {
     @Column(length = 50, nullable = false)
     private String nombre_categoria;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "categoria")
     private List<Producto> productos;
 
 }

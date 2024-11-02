@@ -33,12 +33,10 @@ public class Usuario {
     @Column(length = 50, nullable = false)
     private String contrasena;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<Pedido> pedidos;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<Venta> ventas;
 
     @ManyToOne(fetch = FetchType.EAGER)

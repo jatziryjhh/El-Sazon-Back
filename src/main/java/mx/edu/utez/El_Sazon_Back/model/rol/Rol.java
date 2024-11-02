@@ -22,7 +22,6 @@ public class Rol {
     @Column(length = 50, nullable = false)
     private String nombre_rol;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "rol" )
     private List<Usuario> usuarios;
 }

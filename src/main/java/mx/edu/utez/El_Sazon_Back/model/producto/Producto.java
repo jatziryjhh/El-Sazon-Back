@@ -23,7 +23,7 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_producto;
     @Column(length = 50, nullable = false)
-    private String nombre_prodcuto;
+    private String nombre_producto;
     @Column(length = 50, nullable = false)
     private String descripcion;
     @Column(length = 50, nullable = false)
@@ -39,7 +39,7 @@ public class Producto {
     private Categoria categoria;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "producto")
     private List<PedidoProducto> pedidoProductos;
 
 
