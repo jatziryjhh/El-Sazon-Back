@@ -29,6 +29,8 @@ public class Pedido {
     private LocalDateTime fecha_pedido;
     @Column(length = 50, nullable = false)
     private Double total_pedido;
+    @Column(length = 50, nullable = false)
+    private String status;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Venta venta;
@@ -40,10 +42,11 @@ public class Pedido {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Pedido(Long id_pedido, LocalDateTime fecha_pedido, Double total_pedido, Usuario usuario) {
+    public Pedido(Long id_pedido, LocalDateTime fecha_pedido, Double total_pedido, String status, Usuario usuario) {
         this.id_pedido = id_pedido;
         this.fecha_pedido = fecha_pedido;
         this.total_pedido = total_pedido;
+        this.status= status;
         this.usuario = usuario;
     }
 }

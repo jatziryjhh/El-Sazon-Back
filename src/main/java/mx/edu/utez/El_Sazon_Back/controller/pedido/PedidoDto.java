@@ -16,9 +16,10 @@ public class PedidoDto {
     private Long id_pedido;
     private LocalDateTime fecha_pedido;
     private Double total_pedido;
+    private String status;
     private Usuario usuario;
 
     public Pedido toEntity(){
-        return new Pedido(id_pedido, fecha_pedido, total_pedido, usuario);
+        return new Pedido(id_pedido, fecha_pedido, total_pedido, status, usuario);
     }
 }
