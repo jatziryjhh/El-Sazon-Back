@@ -1,6 +1,7 @@
 package mx.edu.utez.El_Sazon_Back.model.rol;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +21,15 @@ public class Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_role;
     @Column(length = 50, nullable = false)
-    private String nombre_rol;
+    private String nombre;
 
+
+    @JsonIgnoreProperties({"rol"})
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "rol" )
     private List<Usuario> usuarios;
 
-    public Rol(String nombre_rol) {
-        this.nombre_rol = nombre_rol;
+    public Rol(String nombre) {
+        this.nombre = nombre;
     }
 }

@@ -36,10 +36,11 @@ public class ProductoService {
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> delete(@PathVariable Long id){
         Optional<Producto> findById = productoRepository.findById(id);
-        if(findById.isEmpty())
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "No se encontró el producto"), HttpStatus.NOT_FOUND);
+        if (findById.isEmpty())
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "No se encontró el Id"), HttpStatus.NOT_FOUND);
         productoRepository.deleteById(id);
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Habitacion eliminada"), HttpStatus.OK);
+        System.out.println("Producto con ID " + id + " eliminado de la base de datos.");
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Producto eliminado"), HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)

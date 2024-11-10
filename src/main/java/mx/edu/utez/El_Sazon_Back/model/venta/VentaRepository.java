@@ -6,5 +6,5 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface VentaRepository extends JpaRepository<Venta, Long> {
-    Optional<Venta> findByFecha_venta(LocalDateTime fecha_venta);
+    Optional<Venta> findByFechaventa(LocalDateTime fechaventa);
 }

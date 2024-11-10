@@ -18,7 +18,7 @@ public class CategoriaService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<ApiResponse> getAll(){
+    public ResponseEntity<ApiResponse> findAll(){
         return new ResponseEntity<>(new ApiResponse(categoriaRepository.findAll(),
                 HttpStatus.OK), HttpStatus.OK);
     }

@@ -1,8 +1,15 @@
 package mx.edu.utez.El_Sazon_Back.service.inventario;
 
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
+import mx.edu.utez.El_Sazon_Back.controller.inventario.InventarioDto;
+import mx.edu.utez.El_Sazon_Back.controller.producto.ProductoDto;
+import mx.edu.utez.El_Sazon_Back.controller.venta.VentaDto;
 import mx.edu.utez.El_Sazon_Back.model.inventario.Inventario;
 import mx.edu.utez.El_Sazon_Back.model.inventario.InventarioRepository;
+import mx.edu.utez.El_Sazon_Back.model.pedido.Pedido;
+import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
+import mx.edu.utez.El_Sazon_Back.model.producto.ProductoRepository;
+import mx.edu.utez.El_Sazon_Back.model.venta.Venta;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,9 +24,11 @@ import java.util.Optional;
 
 public class InventarioService {
     private final InventarioRepository inventarioRepository;
+    private final ProductoRepository productoRepository;
 
-    public InventarioService(InventarioRepository inventarioRepository) {
+    public InventarioService(InventarioRepository inventarioRepository, ProductoRepository productoRepository) {
         this.inventarioRepository = inventarioRepository;
+        this.productoRepository = productoRepository;
     }
 
     @Transactional(readOnly = true)
@@ -29,10 +38,29 @@ public class InventarioService {
     }
 
     @Transactional(rollbackFor = {SQLException.class})
-    public ResponseEntity<ApiResponse> register(Inventario inventario){
+    public ResponseEntity<ApiResponse> registerAll(Inventario inventario){
         inventario = inventarioRepository.saveAndFlush(inventario);
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Registro de inventario exitoso"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Registro de producto e inventario exitoso"), HttpStatus.OK);
     }
+
+    public ResponseEntity<ApiResponse> registerProduct(InventarioDto inventarioDto) {
+        try {
+            Inventario inventario = inventarioDto.toEntity();
+
+            // Primero buscar id del producto
+            Producto producto = productoRepository.findById(inventarioDto.getProducto().getId_producto())
+                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+            inventario.setProducto(producto); // Asignar produtcto al inventario
+
+            inventarioRepository.save(inventario);
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Producto registrado"), HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error al registrar la venta: " + e.getMessage());
+            System.out.println("Los ids son " + inventarioDto.getProducto().getId_producto());
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, "Error al registrar la venta"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse> findById(@PathVariable Long id){

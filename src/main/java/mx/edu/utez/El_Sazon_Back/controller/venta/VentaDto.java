@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 
 public class VentaDto {
     private Long id_venta;
-    private LocalDateTime fecha_venta;
+    private LocalDateTime fechaventa;
     private Double total_venta;
     private Pedido pedido;
     private Usuario usuario;
 
     public Venta toEntity(){
-        return new Venta(id_venta, fecha_venta, total_venta, pedido, usuario);
+        return new Venta(id_venta, fechaventa, total_venta, pedido, usuario);
     }
 }

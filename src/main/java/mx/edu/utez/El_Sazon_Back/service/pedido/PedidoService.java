@@ -3,6 +3,7 @@ package mx.edu.utez.El_Sazon_Back.service.pedido;
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
 import mx.edu.utez.El_Sazon_Back.model.pedido.Pedido;
 import mx.edu.utez.El_Sazon_Back.model.pedido.PedidoRepository;
+import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,17 @@ public class PedidoService {
         if (findById.isEmpty())
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se encontró el Id"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(new ApiResponse(pedidoRepository.findById(id),HttpStatus.OK), HttpStatus.OK);
+    }
+
+    @Transactional(rollbackFor = {SQLException.class})
+    public  ResponseEntity<ApiResponse> update(Long id, Pedido updatePedido){
+        Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
+        if (optionalPedido.isPresent()){
+            Pedido pedido = optionalPedido.get();
+            pedido.setStatus(updatePedido.getStatus());
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Pedido Actualizado"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "No se encontró el producto"), HttpStatus.NOT_FOUND);
+        }
     }
 }

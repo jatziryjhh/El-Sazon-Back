@@ -32,11 +32,15 @@ public class Pedido {
     @Column(length = 50, nullable = false)
     private String status;
 
+
+    @JsonIgnoreProperties({"pedido"})
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Venta venta;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "pedido")
     private List<PedidoProducto> pedidoProductos;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
