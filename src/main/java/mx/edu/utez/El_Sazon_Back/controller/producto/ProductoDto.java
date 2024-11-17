@@ -17,9 +17,10 @@ public class ProductoDto {
     private Double precio;
     private Integer cantidad_disponible;
     private Categoria categoria;
+    private String imagen;
 
     public Producto toEntity(){
         return new Producto(id, nombre_producto, descripcion, precio,
-                cantidad_disponible, categoria);
+                cantidad_disponible, categoria, imagen);
     }
 }

@@ -66,6 +66,7 @@ public class MainSecurity {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST).permitAll()
                                 .requestMatchers("/api/usuario/**").hasAnyAuthority("Gerente")
+                                .requestMatchers("/api/producto/**").hasAnyAuthority("Gerente")
                                 .requestMatchers("/api/pedido/**").hasAnyAuthority("Cliente", "Gerente", "Empleado")
                                 .requestMatchers("/api/venta/**").hasAnyAuthority("Gerente", "Empleado")
                                 .anyRequest().authenticated()

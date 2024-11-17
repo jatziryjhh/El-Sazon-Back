@@ -30,6 +30,8 @@ public class Producto {
     private Double precio;
     @Column(length = 50, nullable = false)
     private Integer cantidad_disponible;
+    @Column(columnDefinition = "LONGTEXT")
+    private String imagen;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "productos")
@@ -42,12 +44,13 @@ public class Producto {
     @OneToOne(mappedBy = "producto", cascade = CascadeType.ALL)
     private Inventario inventario;
 
-    public Producto(Long id, String nombre_producto, String descripcion, Double precio, Integer cantidad_disponible, Categoria categoria) {
+    public Producto(Long id, String nombre_producto, String descripcion, Double precio, Integer cantidad_disponible, Categoria categoria, String imagen) {
         this.id = id;
         this.nombre_producto = nombre_producto;
         this.descripcion = descripcion;
         this.precio = precio;
         this.cantidad_disponible = cantidad_disponible;
         this.categoria = categoria;
+        this.imagen = imagen;
     }
 }
