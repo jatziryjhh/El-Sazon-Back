@@ -17,11 +17,12 @@ public class UsuarioDto {
     private String apellidop;
     private String correo;
     private String contrasena;
+    private Boolean status;
     private Rol rol;
 
     public Usuario toEntity(){
         if (rol == null)
-            return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena);
-        return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena, rol);
+            return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena, status);
+        return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena, status, rol);
     }
 }

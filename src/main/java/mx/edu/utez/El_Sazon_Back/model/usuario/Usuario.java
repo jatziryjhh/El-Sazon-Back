@@ -28,9 +28,9 @@ public class Usuario {
     @Column(length = 50, nullable = false)
     private String nombre;
     @Column(length = 50, nullable = false)
-    private String apellidom;
-    @Column(length = 50, nullable = true)
     private String apellidop;
+    @Column(length = 50, nullable = true)
+    private String apellidom;
     @Column(length = 50, nullable = false)
     private String correo;
     @Column(length = 150, nullable = false)
@@ -53,23 +53,40 @@ public class Usuario {
     @JoinColumn(name = "rol_id")
     private Rol rol;
 
-    public Usuario(Long id, String nombre, String apellidom, String apellidop, String correo, String contrasena) {
+    public Usuario(Long id, String nombre, String apellidop, String apellidom, String correo, String contrasena, Boolean status) {
         this.id = id;
         this.nombre = nombre;
-        this.apellidom = apellidom;
         this.apellidop = apellidop;
+        this.apellidom = apellidom;
         this.correo = correo;
         this.contrasena = contrasena;
+        this.status = status;
     }
 
-    public Usuario(Long id, String nombre, String apellidom, String apellidop, String correo, String contrasena, Rol rol) {
+    public Usuario(Long id, String nombre, String apellidop, String apellidom, String correo, String contrasena, Boolean status, Rol rol) {
         this.id = id;
         this.nombre = nombre;
-        this.apellidom = apellidom;
         this.apellidop = apellidop;
+        this.apellidom = apellidom;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.status = status;
+        this.rol = rol;
+    }
+
+    public Usuario(String correo, String contrasena, Rol rol) {
         this.correo = correo;
         this.contrasena = contrasena;
         this.rol = rol;
+    }
+
+    public Usuario(String nombre, String apellidop, String apellidom, String correo, String contrasena, Boolean status) {
+        this.nombre = nombre;
+        this.apellidop = apellidop;
+        this.apellidom = apellidom;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.status = status;
     }
 }
 

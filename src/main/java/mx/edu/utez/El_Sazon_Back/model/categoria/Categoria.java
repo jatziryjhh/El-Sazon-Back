@@ -20,7 +20,7 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_categoria;
     @Column(length = 50, nullable = false)
-    private String nombre_categoria;
+    private String nombrecategoria;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
