@@ -9,7 +9,6 @@ import lombok.Setter;
 import mx.edu.utez.El_Sazon_Back.model.categoria.Categoria;
 import mx.edu.utez.El_Sazon_Back.model.inventario.Inventario;
 import mx.edu.utez.El_Sazon_Back.model.pedido.Pedido;
-import mx.edu.utez.El_Sazon_Back.model.pedidoProducto.PedidoProducto;
 
 import java.util.List;
 

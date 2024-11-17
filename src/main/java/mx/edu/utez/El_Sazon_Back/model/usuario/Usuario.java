@@ -33,8 +33,10 @@ public class Usuario {
     private String apellidop;
     @Column(length = 50, nullable = false)
     private String correo;
-    @Column(length = 50, nullable = false)
+    @Column(length = 150, nullable = false)
     private String contrasena;
+    @Column(columnDefinition = "BOOL DEFAULT true")
+    private Boolean status; //no
 
 
     @JsonIgnore

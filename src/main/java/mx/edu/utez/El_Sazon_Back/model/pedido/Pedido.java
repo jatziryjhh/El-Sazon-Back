@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.edu.utez.El_Sazon_Back.model.categoria.Categoria;
-import mx.edu.utez.El_Sazon_Back.model.pedidoProducto.PedidoProducto;
 import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
 import mx.edu.utez.El_Sazon_Back.model.usuario.Usuario;
 import mx.edu.utez.El_Sazon_Back.model.venta.Venta;

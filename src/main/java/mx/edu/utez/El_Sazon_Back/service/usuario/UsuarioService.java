@@ -11,6 +11,7 @@ import mx.edu.utez.El_Sazon_Back.model.venta.Venta;
 import mx.edu.utez.El_Sazon_Back.model.venta.VentaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +50,8 @@ public class UsuarioService {
         Optional<Usuario> findUsuario = usuarioRepository.findByCorreo(usuario.getCorreo());
         if (findUsuario.isPresent())
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "El correo ya ha sido registrado"), HttpStatus.BAD_REQUEST);
-
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        usuario.setContrasena(encoder.encode(usuario.getContrasena()));
         usuario = usuarioRepository.saveAndFlush(usuario);
         return new ResponseEntity<>(new ApiResponse(usuario, HttpStatus.OK), HttpStatus.OK);
     }

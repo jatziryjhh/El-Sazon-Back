@@ -24,7 +24,7 @@ public class UsuarioController {
         return usuarioService.getAll();
     }
 
-    @PostMapping("/")
+    @PostMapping("/registro")
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody UsuarioDto usuarioDto){
         return usuarioService.register(usuarioDto.toEntity());
     }
