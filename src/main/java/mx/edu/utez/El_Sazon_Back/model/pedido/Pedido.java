@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.edu.utez.El_Sazon_Back.model.categoria.Categoria;
 import mx.edu.utez.El_Sazon_Back.model.pedidoProducto.PedidoProducto;
 import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
 import mx.edu.utez.El_Sazon_Back.model.usuario.Usuario;
@@ -37,9 +38,10 @@ public class Pedido {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Venta venta;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "pedido")
-    private List<PedidoProducto> pedidoProductos;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "pedido_producto", joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "producto_id"))
+    private List<Producto> productos;
 
 
     @ManyToOne(fetch = FetchType.EAGER)

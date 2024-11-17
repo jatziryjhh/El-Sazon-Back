@@ -11,7 +11,7 @@ import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
 @Setter
 
 public class ProductoDto {
-    private Long id_producto;
+    private Long id;
     private String nombre_producto;
     private String descripcion;
     private Double precio;
@@ -19,7 +19,7 @@ public class ProductoDto {
     private Categoria categoria;
 
     public Producto toEntity(){
-        return new Producto(id_producto, nombre_producto, descripcion, precio,
+        return new Producto(id, nombre_producto, descripcion, precio,
                 cantidad_disponible, categoria);
     }
 }

@@ -23,8 +23,9 @@ public class Categoria {
     private String nombre_categoria;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "categoria")
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Producto> productos;
+
 
     public Categoria(Long idCategoria, String nombreCategoria, List<Producto> productos) {
     }

@@ -3,7 +3,8 @@ package mx.edu.utez.El_Sazon_Back.service.pedido;
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
 import mx.edu.utez.El_Sazon_Back.model.pedido.Pedido;
 import mx.edu.utez.El_Sazon_Back.model.pedido.PedidoRepository;
-import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
+import mx.edu.utez.El_Sazon_Back.model.venta.Venta;
+import mx.edu.utez.El_Sazon_Back.model.venta.VentaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,11 @@ import java.util.Optional;
 
 public class PedidoService {
     private final PedidoRepository pedidoRepository;
+    private final VentaRepository ventaRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, VentaRepository ventaRepository) {
         this.pedidoRepository = pedidoRepository;
+        this.ventaRepository = ventaRepository;
     }
 
     @Transactional(readOnly = true)
@@ -36,14 +39,32 @@ public class PedidoService {
     }
 
     @Transactional(rollbackFor = {SQLException.class})
-    public ResponseEntity<ApiResponse> delete(@PathVariable Long id){
-        Optional<Pedido> findById = pedidoRepository.findById(id);
-        if (findById.isEmpty())
+    public ResponseEntity<ApiResponse> delete(@PathVariable Long id) {
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
+        if (pedidoOptional.isEmpty()) {
             return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true,
-                    "No se encontró la habitacion"), HttpStatus.NOT_FOUND);
+                    "No se encontró el pedido"), HttpStatus.NOT_FOUND);
+        }
+
+        Pedido pedido = pedidoOptional.get();
+
+        // Aqui desvicunle el pedido de la relación con la venta
+        if (pedido.getVenta() != null) {
+            Venta venta = pedido.getVenta();
+            venta.setPedido(null);
+            ventaRepository.save(venta);
+            pedido.setVenta(null);
+        }
+
+        // Desvincule los productos asociados
+        if (pedido.getProductos() != null && !pedido.getProductos().isEmpty()) {
+            pedido.getProductos().clear();
+            pedidoRepository.save(pedido);
+        }
         pedidoRepository.deleteById(id);
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Pedido eliminado"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Pedido eliminado correctamente"), HttpStatus.OK);
     }
+
 
     @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse> findById(@PathVariable Long id){

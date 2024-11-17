@@ -11,7 +11,7 @@ import mx.edu.utez.El_Sazon_Back.model.usuario.Usuario;
 @Setter
 
 public class UsuarioDto {
-    private Long id_usuario;
+    private Long id;
     private String nombre;
     private String apellidom;
     private String apellidop;
@@ -21,7 +21,7 @@ public class UsuarioDto {
 
     public Usuario toEntity(){
         if (rol == null)
-            return new Usuario(id_usuario, nombre, apellidom, apellidop, correo, contrasena);
-        return new Usuario(id_usuario, nombre, apellidom, apellidop, correo, contrasena, rol);
+            return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena);
+        return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena, rol);
     }
 }

@@ -1,12 +1,11 @@
 package mx.edu.utez.El_Sazon_Back.controller.categoria;
 
+import jakarta.validation.Valid;
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
 import mx.edu.utez.El_Sazon_Back.service.categoria.CategoriaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = {"*"})
@@ -23,5 +22,20 @@ public class CategoriaController {
     @GetMapping("/")
     public ResponseEntity<ApiResponse> getAll(){
         return categoriaService.findAll();
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<ApiResponse> save(@Valid @RequestBody CategoriaDto categoriaDto){
+        return categoriaService.register(categoriaDto.toEntity());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse> findById(@PathVariable Long id){
+        return categoriaService.findById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteById(@PathVariable Long id){
+        return categoriaService.delete(id);
     }
 }

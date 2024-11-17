@@ -25,8 +25,8 @@ public class Inventario {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fecha_actualizacion;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "prodcuto_id")
+    @OneToOne
+    @JoinColumn(name = "producto_id")
     private Producto producto;
 
     public Inventario(Long id_inventario, Integer cantidad_inventario, LocalDateTime fecha_actualizacion, Producto producto) {

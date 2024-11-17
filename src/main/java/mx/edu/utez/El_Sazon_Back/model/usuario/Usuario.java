@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.edu.utez.El_Sazon_Back.model.pedido.Pedido;
+import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
 import mx.edu.utez.El_Sazon_Back.model.rol.Rol;
 import mx.edu.utez.El_Sazon_Back.model.venta.Venta;
 
@@ -22,7 +23,8 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    @Column(name = "id_usuario") // Esto asegura que JPA use "id_usuario" en la BD
+    private Long id;
     @Column(length = 50, nullable = false)
     private String nombre;
     @Column(length = 50, nullable = false)
@@ -39,6 +41,7 @@ public class Usuario {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<Pedido> pedidos;
 
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<Venta> ventas;
@@ -48,8 +51,8 @@ public class Usuario {
     @JoinColumn(name = "rol_id")
     private Rol rol;
 
-    public Usuario(Long id_usuario, String nombre, String apellidom, String apellidop, String correo, String contrasena) {
-        this.id_usuario = id_usuario;
+    public Usuario(Long id, String nombre, String apellidom, String apellidop, String correo, String contrasena) {
+        this.id = id;
         this.nombre = nombre;
         this.apellidom = apellidom;
         this.apellidop = apellidop;
@@ -57,8 +60,8 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public Usuario(Long id_usuario, String nombre, String apellidom, String apellidop, String correo, String contrasena, Rol rol) {
-        this.id_usuario = id_usuario;
+    public Usuario(Long id, String nombre, String apellidom, String apellidop, String correo, String contrasena, Rol rol) {
+        this.id = id;
         this.nombre = nombre;
         this.apellidom = apellidom;
         this.apellidop = apellidop;

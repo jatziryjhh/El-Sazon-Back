@@ -41,7 +41,7 @@ public class VentaService {
             Venta venta = ventaDto.toEntity();
 
             // Buscar el usuario y pedido por el id
-            Usuario usuario = usuarioRepository.findById(ventaDto.getUsuario().getId_usuario())
+            Usuario usuario = usuarioRepository.findById(ventaDto.getUsuario().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
             venta.setUsuario(usuario); // Asignar usuario a la venta
 
@@ -53,7 +53,7 @@ public class VentaService {
             return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Venta registrada"), HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error al registrar la venta: " + e.getMessage());
-            System.out.println("Los ids son " + ventaDto.getUsuario().getId_usuario() + " " + ventaDto.getPedido().getId_pedido());
+            System.out.println("Los ids son " + ventaDto.getUsuario().getId() + " " + ventaDto.getPedido().getId_pedido());
             return new ResponseEntity<>(new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, "Error al registrar la venta"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

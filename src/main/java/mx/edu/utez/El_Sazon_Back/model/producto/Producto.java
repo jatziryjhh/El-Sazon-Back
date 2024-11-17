@@ -22,10 +22,10 @@ import java.util.List;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_producto;
+    private Long id;
     @Column(length = 50, nullable = false)
     private String nombre_producto;
-    @Column(length = 50, nullable = true)
+    @Column(length = 50, nullable = false)
     private String descripcion;
     @Column(length = 50, nullable = false)
     private Double precio;
@@ -33,19 +33,18 @@ public class Producto {
     private Integer cantidad_disponible;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "producto")
-    private Inventario inventario;
+    @ManyToMany(mappedBy = "productos")
+    private List<Pedido> pedidos;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "producto")
-    private List<PedidoProducto> pedidoProductos;
+    @OneToOne(mappedBy = "producto", cascade = CascadeType.ALL)
+    private Inventario inventario;
 
-    public Producto(Long id_producto, String nombre_producto, String descripcion, Double precio, Integer cantidad_disponible, Categoria categoria) {
-        this.id_producto = id_producto;
+    public Producto(Long id, String nombre_producto, String descripcion, Double precio, Integer cantidad_disponible, Categoria categoria) {
+        this.id = id;
         this.nombre_producto = nombre_producto;
         this.descripcion = descripcion;
         this.precio = precio;

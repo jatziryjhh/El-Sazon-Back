@@ -48,7 +48,7 @@ public class InventarioService {
             Inventario inventario = inventarioDto.toEntity();
 
             // Primero buscar id del producto
-            Producto producto = productoRepository.findById(inventarioDto.getProducto().getId_producto())
+            Producto producto = productoRepository.findById(inventarioDto.getProducto().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
             inventario.setProducto(producto); // Asignar produtcto al inventario
 
@@ -56,7 +56,7 @@ public class InventarioService {
             return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Producto registrado"), HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error al registrar la venta: " + e.getMessage());
-            System.out.println("Los ids son " + inventarioDto.getProducto().getId_producto());
+            System.out.println("Los ids son " + inventarioDto.getProducto().getId());
             return new ResponseEntity<>(new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, "Error al registrar la venta"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

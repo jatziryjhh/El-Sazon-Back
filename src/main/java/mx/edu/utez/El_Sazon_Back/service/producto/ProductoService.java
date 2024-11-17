@@ -1,6 +1,8 @@
 package mx.edu.utez.El_Sazon_Back.service.producto;
 
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
+import mx.edu.utez.El_Sazon_Back.model.categoria.Categoria;
+import mx.edu.utez.El_Sazon_Back.model.categoria.CategoriaRepository;
 import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
 import mx.edu.utez.El_Sazon_Back.model.producto.ProductoRepository;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,11 @@ import java.util.Optional;
 
 public class ProductoService {
     private  final ProductoRepository productoRepository;
+    private final CategoriaRepository categoriaRepository;
 
-    public ProductoService(ProductoRepository productoRepository) {
+    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository) {
         this.productoRepository = productoRepository;
+        this.categoriaRepository = categoriaRepository;
     }
 
     @Transactional(readOnly = true)
@@ -33,16 +37,6 @@ public class ProductoService {
         return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Producto registrado"), HttpStatus.OK);
     }
 
-    @Transactional(rollbackFor = {SQLException.class})
-    public ResponseEntity<ApiResponse> delete(@PathVariable Long id){
-        Optional<Producto> findById = productoRepository.findById(id);
-        if (findById.isEmpty())
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "No se encontró el Id"), HttpStatus.NOT_FOUND);
-        productoRepository.deleteById(id);
-        System.out.println("Producto con ID " + id + " eliminado de la base de datos.");
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Producto eliminado"), HttpStatus.OK);
-    }
-
     @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse> findById(@PathVariable Long id){
         Optional<Producto> findById = productoRepository.findById(id);
@@ -50,6 +44,33 @@ public class ProductoService {
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se encontró el producto"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(new ApiResponse(productoRepository.findById(id), HttpStatus.OK), HttpStatus.OK);
     }
+
+    @Transactional(rollbackFor = {SQLException.class})
+    public ResponseEntity<ApiResponse> delete(Long id) {
+        // Busca el producto por su ID
+        Optional<Producto> productoOptional = productoRepository.findById(id);
+
+        if (productoOptional.isPresent()) {
+            Producto producto = productoOptional.get();
+
+            // Desvincula el producto de la categoría antes de eliminarlo
+            if (producto.getCategoria() != null) {
+                Categoria categoria = producto.getCategoria();
+                // Remueve el producto de la lista de productos de la categoría
+                categoria.getProductos().remove(producto);
+                producto.setCategoria(null); // Desvincula el producto de la categoría
+                categoriaRepository.save(categoria); // Guarda los cambios en la categoría
+            }
+
+            // Elimina el producto
+            productoRepository.deleteById(id);
+
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Producto eliminado correctamente"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "Id no encontrado"), HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @Transactional(rollbackFor = {SQLException.class})
     public  ResponseEntity<ApiResponse> update(Long id, Producto updateProducto){
