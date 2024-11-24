@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
 import mx.edu.utez.El_Sazon_Back.service.producto.ProductoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +17,7 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/visualizar")
     public ResponseEntity<ApiResponse> getAll() {
         return productoService.getAll();
     }
