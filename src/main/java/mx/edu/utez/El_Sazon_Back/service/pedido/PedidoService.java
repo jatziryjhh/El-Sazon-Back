@@ -1,8 +1,13 @@
 package mx.edu.utez.El_Sazon_Back.service.pedido;
 
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
+import mx.edu.utez.El_Sazon_Back.controller.pedido.PedidoDto;
 import mx.edu.utez.El_Sazon_Back.model.pedido.Pedido;
 import mx.edu.utez.El_Sazon_Back.model.pedido.PedidoRepository;
+import mx.edu.utez.El_Sazon_Back.model.producto.Producto;
+import mx.edu.utez.El_Sazon_Back.model.producto.ProductoRepository;
+import mx.edu.utez.El_Sazon_Back.model.usuario.Usuario;
+import mx.edu.utez.El_Sazon_Back.model.usuario.UsuarioRepository;
 import mx.edu.utez.El_Sazon_Back.model.venta.Venta;
 import mx.edu.utez.El_Sazon_Back.model.venta.VentaRepository;
 import org.springframework.http.HttpStatus;
@@ -12,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -20,10 +27,14 @@ import java.util.Optional;
 public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final VentaRepository ventaRepository;
+    private final ProductoRepository productoRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository, VentaRepository ventaRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, VentaRepository ventaRepository, ProductoRepository productoRepository, UsuarioRepository usuarioRepository) {
         this.pedidoRepository = pedidoRepository;
         this.ventaRepository = ventaRepository;
+        this.productoRepository = productoRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Transactional(readOnly = true)
@@ -75,14 +86,41 @@ public class PedidoService {
     }
 
     @Transactional(rollbackFor = {SQLException.class})
-    public  ResponseEntity<ApiResponse> update(Long id, Pedido updatePedido){
+    public ResponseEntity<ApiResponse> update(Long id, PedidoDto pedidoDto) {
+        // Buscar el pedido existente por ID
         Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
-        if (optionalPedido.isPresent()){
-            Pedido pedido = optionalPedido.get();
-            pedido.setStatus(updatePedido.getStatus());
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Pedido Actualizado"), HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "No se encontró el producto"), HttpStatus.NOT_FOUND);
+
+        if (optionalPedido.isEmpty()) {
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "No se encontró el pedido"), HttpStatus.NOT_FOUND);
         }
+
+        // Obtener el pedido encontrado
+        Pedido pedido = optionalPedido.get();
+
+        // Actualizar los valores del pedido
+        pedido.setFecha_pedido(pedidoDto.getFecha_pedido());
+        pedido.setTotal_pedido(pedidoDto.getTotal_pedido());
+        pedido.setStatus(pedidoDto.getStatus());
+
+        // Obtener el usuario usando el ID del DTO
+        Usuario usuario = usuarioRepository.findById(pedidoDto.getUsuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        pedido.setUsuario(usuario);  // Establecer el usuario actualizado
+
+        // Actualizar los productos asociados
+        if (pedidoDto.getProductosIds() != null) {
+            List<Producto> productos = pedidoDto.getProductosIds().stream()
+                    .map(productoRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
+            pedido.setProductos(productos);  // Actualizar los productos en el pedido
+        }
+
+        // Guardar y actualizar el pedido en la base de datos
+        pedidoRepository.saveAndFlush(pedido);
+
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Pedido actualizado correctamente"), HttpStatus.OK);
     }
+
 }
