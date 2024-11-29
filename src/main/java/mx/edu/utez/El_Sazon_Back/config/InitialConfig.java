@@ -35,7 +35,7 @@ public class InitialConfig implements CommandLineRunner {
         Usuario user = getOrSaveUser(
                 new Usuario("Lizbeth", "Santibañez", "Cruz", "lizz@gmail.com", encoder.encode("michifus"), true)
         );
-        saveUserRol(user.getId(), adminRole.getId_role());
+        saveUserRol(user.getId(), (long) adminRole.getId_role());
 
         createCategoria("Alimentos");
         createCategoria("Bebidas");
@@ -58,7 +58,7 @@ public class InitialConfig implements CommandLineRunner {
         return foundUser.orElseGet(() -> {
             Rol userRol = user.getRol();
             if (userRol != null){
-                if (userRol.getId_role() == null){
+                if (userRol.getId_role() == 0){
                     userRol = getOrSaveRol(userRol);
                 }
             }

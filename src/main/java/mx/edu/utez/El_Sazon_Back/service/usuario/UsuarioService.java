@@ -112,6 +112,9 @@ public class UsuarioService {
             usuario.setApellidom(updateUsuario.getApellidom());
             usuario.setApellidop(updateUsuario.getApellidop());
             usuario.setCorreo(updateUsuario.getCorreo());
+            usuario.setStatus(updateUsuario.getStatus());
+            usuario.setRol(updateUsuario.getRol());
+
             return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Usuario actualizado"), HttpStatus.OK);
         }else{
             return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "Usuario con ese id no encontrado"), HttpStatus.NOT_FOUND);

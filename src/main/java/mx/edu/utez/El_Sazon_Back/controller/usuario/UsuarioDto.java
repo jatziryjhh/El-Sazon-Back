@@ -22,7 +22,7 @@ public class UsuarioDto {
 
     public Usuario toEntity(){
         if (rol == null)
-            return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena, status);
-        return new Usuario(id, nombre, apellidom, apellidop, correo, contrasena, status, rol);
+            return new Usuario(id, nombre, apellidop, apellidom, correo, contrasena, status);
+        return new Usuario(id, nombre, apellidop, apellidom, correo, contrasena, status, rol);
     }
 }

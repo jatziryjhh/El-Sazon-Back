@@ -32,7 +32,8 @@
                 "/api/usuario/registro/**",
                 "/api/pedido/**",
                 "/api/producto/visualizar/**",
-                "/api/categoria/**"
+                "/api/categoria/**",
+                "/api/rol/**"
         };
 
         private final UsuarioDetailsServiceImpl service;
@@ -68,7 +69,7 @@
             http.cors(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(req ->
                             req.requestMatchers(WHITE_LIST).permitAll()  // Asegúrate que estas rutas estén correctamente configuradas
-                                    .requestMatchers("/api/usuario/**").hasAnyAuthority("Gerente")
+                                    .requestMatchers("/api/usuario/**").hasAnyAuthority("Gerente", "Cliente")
                                     .requestMatchers("/api/pedido/**").hasAnyAuthority("Cliente", "Gerente", "Empleado")
                                     .requestMatchers("/api/venta/**").hasAnyAuthority("Gerente", "Empleado")
                                     .anyRequest().authenticated()

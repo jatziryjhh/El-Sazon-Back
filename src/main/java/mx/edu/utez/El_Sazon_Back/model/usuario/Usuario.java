@@ -1,7 +1,9 @@
 package mx.edu.utez.El_Sazon_Back.model.usuario;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,8 +38,7 @@ public class Usuario {
     @Column(length = 150, nullable = false)
     private String contrasena;
     @Column(columnDefinition = "BOOL DEFAULT true")
-    private Boolean status; //no
-
+    private Boolean status;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
@@ -52,6 +53,7 @@ public class Usuario {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rol_id")
     private Rol rol;
+
 
     public Usuario(Long id, String nombre, String apellidop, String apellidom, String correo, String contrasena, Boolean status) {
         this.id = id;

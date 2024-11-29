@@ -2,6 +2,7 @@ package mx.edu.utez.El_Sazon_Back.controller.usuario;
 
 import jakarta.validation.Valid;
 import mx.edu.utez.El_Sazon_Back.config.ApiResponse;
+import mx.edu.utez.El_Sazon_Back.model.rol.Rol;
 import mx.edu.utez.El_Sazon_Back.service.usuario.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
