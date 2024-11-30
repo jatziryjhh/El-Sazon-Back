@@ -33,7 +33,8 @@
                 "/api/pedido/**",
                 "/api/producto/visualizar/**",
                 "/api/categoria/**",
-                "/api/rol/**"
+                "/api/rol/**",
+                "/api/enviar-correo/**"
         };
 
         private final UsuarioDetailsServiceImpl service;
