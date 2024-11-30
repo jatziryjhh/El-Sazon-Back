@@ -70,7 +70,6 @@
                     .authorizeHttpRequests(req ->
                             req.requestMatchers(WHITE_LIST).permitAll()  // Asegúrate que estas rutas estén correctamente configuradas
                                     .requestMatchers("/api/usuario/**").hasAnyAuthority("Gerente", "Cliente")
-                                    .requestMatchers("/api/pedido/**").hasAnyAuthority("Cliente", "Gerente", "Empleado")
                                     .requestMatchers("/api/venta/**").hasAnyAuthority("Gerente", "Empleado")
                                     .anyRequest().authenticated()
                     )

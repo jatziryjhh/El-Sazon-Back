@@ -38,8 +38,8 @@ public class InitialConfig implements CommandLineRunner {
         saveUserRol(user.getId(), (long) adminRole.getId_role());
 
         createCategoria("Alimentos");
-        createCategoria("Bebidas");
         createCategoria("Postres");
+        createCategoria("Bebidas");
     }
 
 

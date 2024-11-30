@@ -46,7 +46,6 @@ public class PedidoController {
     @PostMapping("/")
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody PedidoDto pedidoDto) {
-        // Obtener el usuario a partir de usuarioId
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(pedidoDto.getUsuarioId());
         if (optionalUsuario.isEmpty()) {
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Usuario no encontrado"), HttpStatus.BAD_REQUEST);
@@ -54,17 +53,14 @@ public class PedidoController {
 
         Usuario usuario = optionalUsuario.get();
 
-        // Obtener los productos a partir de los productosIds
         List<Producto> productos = pedidoDto.getProductosIds().stream()
                 .map(productoRepository::findById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
-        // Convertir el DTO en la entidad Pedido
         Pedido pedido = pedidoDto.toEntity(productos, usuario);
 
-        // Guardar el pedido
         pedidoRepository.saveAndFlush(pedido);
 
         return new ResponseEntity<>(new ApiResponse(HttpStatus.CREATED, false, "Pedido creado correctamente"), HttpStatus.CREATED);
