@@ -33,7 +33,7 @@ public class InitialConfig implements CommandLineRunner {
         getOrSaveRol(new Rol("Cliente"));
 
         Usuario user = getOrSaveUser(
-                new Usuario("Lizbeth", "Santibañez", "Cruz", "lizz@gmail.com", encoder.encode("michifus"), true)
+                new Usuario("Lizbeth", "Santibañez", "Cruz", "20223tn031@utez.edu.mx", encoder.encode("michifus"), true)
         );
         saveUserRol(user.getId(), (long) adminRole.getId_role());
 

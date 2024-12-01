@@ -29,7 +29,7 @@ public class EmailServiceImpl implements IEmailService {
         // Configurar los detalles del correo
         helper.setTo(email.getDestinatario());
         helper.setSubject(email.getAsunto());
-        helper.setText("<html><body><h1 style='color: #007bff;'>¡Hola!</h1><p style='color: #f00;'>" + email.getMensaje() + "</p></body></html>", true);
+        helper.setText("<html><body><h2 style='color: #000000;'>Te informamos que se ha registrado un nuevo pedido en Cafetería *El Sazón*</h2><p style='color: #000000;'>" + email.getMensaje() + "</p></body></html>", true);
 
         // Enviar el correo
         javaMailSender.send(mimeMessage);
