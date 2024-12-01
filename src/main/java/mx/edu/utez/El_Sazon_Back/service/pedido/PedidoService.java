@@ -87,7 +87,6 @@ public class PedidoService {
 
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> update(Long id, PedidoDto pedidoDto) {
-        // Buscar el pedido existente por ID
         Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
 
         if (optionalPedido.isEmpty()) {

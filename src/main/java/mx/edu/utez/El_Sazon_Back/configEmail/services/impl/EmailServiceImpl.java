@@ -19,23 +19,19 @@ public class EmailServiceImpl implements IEmailService {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
     }
+
     @Override
-    public void sendMail(EmailDto emailDto) throws MessagingException {
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+    public void sendMail(EmailDto email) throws MessagingException {
+        // Crear un MimeMessage para el correo
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            helper.setTo(emailDto.getDestinatario());
-            helper.setSubject(emailDto.getAsunto());
+        // Configurar los detalles del correo
+        helper.setTo(email.getDestinatario());
+        helper.setSubject(email.getAsunto());
+        helper.setText("<html><body><h1 style='color: #007bff;'>¡Hola!</h1><p style='color: #f00;'>" + email.getMensaje() + "</p></body></html>", true);
 
-            Context context = new Context();
-            context.setVariable("message", emailDto.getMensaje());
-            String contentHTML = templateEngine.process("email", context);
-
-            helper.setText(contentHTML, true);
-            javaMailSender.send(message);
-        }catch (Exception e){
-            throw new RuntimeException("Error al enviar el correo electrónico" + e.getMessage(), e);
-        }
+        // Enviar el correo
+        javaMailSender.send(mimeMessage);
     }
 }
